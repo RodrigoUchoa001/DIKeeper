@@ -7,7 +7,7 @@ import { ariesAskar } from '@hyperledger/aries-askar-react-native'
 
 import { HttpOutboundTransport, WsOutboundTransport } from '@aries-framework/core'
 
-function iniciarAgente(label: string, wallet_id: string, wallet_key: string) {
+export function iniciarAgente(label: string, wallet_id: string, wallet_key: string) {
     const config: InitConfig = {
         label: label,
         walletConfig: {
@@ -33,13 +33,13 @@ function iniciarAgente(label: string, wallet_id: string, wallet_key: string) {
     agente
         .initialize()
         .then(() => {
-            console.log('Agente initializado!')
+            console.log('Agente initializado com sucesso!')
         })
         .catch((e) => {
             console.error(`Deu esse erro na hora de inicializar o agente: ${e}`)
         })
     
-    return agente;
+    return agente
 }
 
 
