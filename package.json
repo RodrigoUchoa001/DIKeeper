@@ -9,12 +9,16 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@aries-framework/core": "0.4.0",
+    "@aries-framework/react-native": "0.4.0",
     "@types/react": "~18.0.27",
     "expo": "~48.0.18",
     "expo-status-bar": "~1.4.4",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-native": "0.71.8",
+    "react-native-fs": "^2.20.0",
+    "react-native-get-random-values": "^1.9.0",
     "typescript": "^4.9.4"
   },
   "devDependencies": {
