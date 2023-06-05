@@ -1,4 +1,4 @@
-import type { InitConfig } from '@aries-framework/core'
+import { CredentialEventTypes, CredentialState, CredentialStateChangedEvent, InitConfig } from '@aries-framework/core'
 import { Agent } from '@aries-framework/core'
 import { agentDependencies } from '@aries-framework/react-native'
 
@@ -22,13 +22,14 @@ export function iniciarAgente(label: string, wallet_id: string, wallet_key: stri
         modules: {
             // Register the Askar module on the agent
             askar: new AskarModule({
-            ariesAskar,
+                ariesAskar,
             }),
         },
     })
 
     agente.registerOutboundTransport(new HttpOutboundTransport())
     agente.registerOutboundTransport(new WsOutboundTransport())
+    // agente.registerInboundTransport(new HttpInboundTransport({ port: 3002 }))
 
     agente
         .initialize()
@@ -38,6 +39,20 @@ export function iniciarAgente(label: string, wallet_id: string, wallet_key: stri
         .catch((e) => {
             console.error(`Deu esse erro na hora de inicializar o agente: ${e}`)
         })
+    
+    // ouvir por novas credenciais chegando
+    agente.events.on<CredentialStateChangedEvent>(CredentialEventTypes.CredentialStateChanged, async ({ payload }) => {
+        switch (payload.credentialRecord.state) {
+            case CredentialState.OfferReceived:
+                console.log('credencial recebida')
+                // TODO: exibir na tela a nova credencial
+
+                await agente.credentials.acceptOffer({ credentialRecordId: payload.credentialRecord.id })
+            case CredentialState.Done:
+                console.log(`Credencial com id ${payload.credentialRecord.id} aceita`)
+                process.exit(0)
+        }
+    })
     
     return agente
 }
