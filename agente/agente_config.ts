@@ -33,7 +33,7 @@ export function iniciarAgente(label: string, wallet_id: string, wallet_key: stri
     agente
         .initialize()
         .then(() => {
-            console.log('Agente initializado com sucesso!')
+            console.log(`Agente ${label} initializado com sucesso!`)
         })
         .catch((e) => {
             console.error(`Deu esse erro na hora de inicializar o agente: ${e}`)
